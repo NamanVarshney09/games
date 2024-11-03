@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 const MemoryGame = () => {
   const [gridSize, setGridSize] = useState(2);
@@ -9,17 +10,22 @@ const MemoryGame = () => {
   const [inProgress, setInProgress] = useState(false);
   const [won, setWon] = useState(false)
 
-  useEffect(() => {
+  const constructGrid = () => {
     let totalCards = gridSize * gridSize;
     const numbers = [...Array(Math.floor(totalCards / 2))].map((_, i) => i + 1);
     const shuffledCards = [...numbers, ...numbers]
       .sort(() => Math.random() - 0.5)
       .map((number, index) => ({ id: index, number }));
     setCards(shuffledCards);
-  }, [gridSize, won])
+  };
 
   useEffect(() => {
-    if (solved.length === cards.length && cards.length > 0){
+    constructGrid()
+  }, [gridSize])
+  
+
+  useEffect(() => {
+    if (solved.length === cards.length && cards.length > 0) {
       setWon(true)
     }
   }, [solved, cards])
@@ -62,10 +68,33 @@ const MemoryGame = () => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleReset = () => {
     setSolved([])
     setWon(false)
     setInProgress(prev => !prev)
+  }
+
+  const handleStart = () => {
+    if(gridSize>10)
+      setGridSize(6)
+    else if(gridSize < 2)
+      setGridSize(2)
+
+    setSolved([])
+    setFlipped([])
+    if (won) {
+      setGridSize(gridSize + 1)
+      setWon(false)
+      return;
+    }
+    setInProgress(prev => !prev)
+  }
+
+  const handleAgain = () => {
+    setSolved([])
+    setFlipped([])
+    setWon(false)
+    constructGrid()
   }
 
   const isFlipped = (id) => flipped.includes(id) || solved.includes(id);
@@ -74,11 +103,15 @@ const MemoryGame = () => {
   return (
     <>
       <div className="flex flex-col gap-1 h-screen w-screen items-center justify-center bg-red-100">
-        <h2 className='text-4xl font-bold mb-8'>Memory Game</h2>
+        <Link to="/">
+          <svg id="logo-72" width="52" height="44" viewBox="0 0 53 44" fill="#000000" xmlns="http://www.w3.org/2000/svg"><path d="M23.2997 0L52.0461 28.6301V44H38.6311V34.1553L17.7522 13.3607L13.415 13.3607L13.415 44H0L0 0L23.2997 0ZM38.6311 15.2694V0L52.0461 0V15.2694L38.6311 15.2694Z" className="ccustom" fill="#000000"></path></svg>
+        </Link>
+        <h2 className='text-4xl font-bold m-8'>Memory Game</h2>
         <label htmlFor="gridSize" className='font-semibold'>Grid Size</label>
         <input
-          type="number" name="gridSize"
-          className='bg-green-100 px-4 py-2 font-bold w-20 rounded-lg mb-8'
+          type="text" name="gridSize" id="gridSize"
+          inputMode="numeric"
+          className='bg-green-50 px-4 py-2 font-bold w-20 rounded-lg mb-8  focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent'
           value={gridSize}
           onChange={(e) => setGridSize(Number(e.target.value))}
           min={2} max={10}
@@ -94,10 +127,27 @@ const MemoryGame = () => {
             </div>
           })}
         </div>}
-
         {won && <div className='mt-5 text-2xl font-bold text-green-600 animate-bounce'>You WON !</div>}
+        <div className='flex gap-2'>
+          {(!inProgress || won) && <button
+            onClick={handleStart}
+            className="space-x-4 mt-5 px-4 py-2 bg-black text-white border font-semibold rounded-md hover:bg-white hover:text-black hover:scale-105"
+          >{won ? "Next Level" : "Start"}
+          </button>}
 
-        <button onClick={handleSubmit} type="button" className="mt-5 px-4 py-2 bg-blue-500 text-white font-bold rounded-lg cursor-pointer hover:scale-105">{inProgress ? won ? "Play Again" : "Reset" : "Start"}</button>
+          {inProgress && <button
+            onClick={handleReset}
+            className="space-x-4 mt-5 px-4 py-2 bg-black text-white border font-semibold rounded-md hover:bg-white hover:text-black hover:scale-105"
+          >Reset
+          </button>}
+
+          {won && <button
+            onClick={handleAgain}
+            className="space-x-4 mt-5 px-4 py-2 bg-black text-white border font-semibold rounded-md hover:bg-white hover:text-black hover:scale-105"
+          >Play Again
+          </button>}
+
+        </div>
       </div>
     </>
   )

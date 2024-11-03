@@ -67,7 +67,7 @@ const HeaderBlock = () => (
         <h1 className="mb-12 text-4xl font-medium leading-tight">
             Hi, I'm Naman.{" "}
             <span className="text-zinc-400">
-                I build cool websites like this one.
+                I am a Frontend Developer.
             </span>
         </h1>
         <a
@@ -146,9 +146,9 @@ const GamesBlock = () => (
 const AboutBlock = () => (
     <Block className="col-span-12 text-3xl leading-snug">
         <p>
-            My passion is building cool stuff.{" "}
+            My passion is building user friendly websites.{" "}
             <span className="text-zinc-400">
-                I build primarily with React, Express, MongoDB, Tailwind CSS, and Framer Motion.
+                I build primarily with React, Express, MongoDB, Redux, Tailwind CSS, and Framer Motion.
             </span>
         </p>
     </Block>
