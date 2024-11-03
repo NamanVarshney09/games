@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from "./components/Home.jsx"
-import Memory from './components/memory.jsx'
+import MemoryGame from './components/MemoryGame.jsx'
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path:"memory-game",
-        element: <Memory/>
+        element: <MemoryGame/>
       }
     ]
   }

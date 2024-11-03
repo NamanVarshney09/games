@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Memory = () => {
+const MemoryGame = () => {
   const [gridSize, setGridSize] = useState(2);
   const [cards, setCards] = useState([])
   const [flipped, setFlipped] = useState([])
@@ -39,4 +39,4 @@ const Memory = () => {
   )
 }
 
-export default Memory
+export default MemoryGame
