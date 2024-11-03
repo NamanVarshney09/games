@@ -107,8 +107,8 @@ const MemoryGame = () => {
           <svg id="logo-72" width="52" height="44" viewBox="0 0 53 44" fill="#000000" xmlns="http://www.w3.org/2000/svg"><path d="M23.2997 0L52.0461 28.6301V44H38.6311V34.1553L17.7522 13.3607L13.415 13.3607L13.415 44H0L0 0L23.2997 0ZM38.6311 15.2694V0L52.0461 0V15.2694L38.6311 15.2694Z" className="ccustom" fill="#000000"></path></svg>
         </Link>
         <h2 className='text-4xl font-bold m-8'>Memory Game</h2>
-        <label htmlFor="gridSize" className='font-semibold'>Grid Size</label>
-        <input
+        {!inProgress && <label htmlFor="gridSize" className='font-semibold'>Grid Size</label>}
+        {!inProgress && <input
           type="text" name="gridSize" id="gridSize"
           inputMode="numeric"
           className='bg-green-50 px-4 py-2 font-bold w-20 rounded-lg mb-8  focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent'
@@ -116,7 +116,7 @@ const MemoryGame = () => {
           onChange={(e) => setGridSize(Number(e.target.value))}
           min={2} max={10}
           disabled={inProgress}
-        />
+        />}
         {inProgress && <div className='grid gap-2 mb-4' style={{ gridTemplateColumns: `repeat(${gridSize},minmax(0,1fr))`, width: `min(100%, ${gridSize * 5}rem)` }}>
           {cards.map((card) => {
             return <div
